@@ -1,0 +1,107 @@
+HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresistible-power-of-storytelling-as-a-strategic-business-tool/?utm_source=Socialflow&utm_medium=Tweet&utm_campaign=Socialflow):
+	- 	Pyramid
+		1. Exposition 
+		2. complication (rising action)
+		3. climax (turning point)
+		4. reversal (falling action)
+		5. Denouement (moment of release)
+
+
+		1. Exposition 
+			=> Setting the scene. Introduce characters and setting, providing description and background. 
+				- A classic ASP app, with custom and 3rd party COM components. UDL files for connection strings. 
+				- Source control: subversion, and we trust that dev's actually commit to SVN before moving. 
+				- environments : DEV/QA/LIVE. Dev's don't have local copy (we did in the past but because the process for setting it up was manual, eventually new members on the team didn't get taught how to setup, so they end up coding directly against dev)
+				- Migration process is varied: dev's manually copy to DEV, manually copy to QA, uuse a custom, super-old tool to migrate to LIVE
+					- the tool copies to a publishing server, and a cron job robocopies the files to the web farm. 
+				- We 
+		2. complication (rising action)
+			=> Inciting incident "Troubles with the old way"
+				- Classic ASP... 'nuff said. COM components... 'nuff said. UDL's... 'nuff said.
+					- how do you robocopy thi stuff? What about when you want to change it? 
+					- "Send long, detailed word doc to IT with step-by-step instructions: 
+						- "Step 1. Log into target server / 2. Start>Administrative Tools>Component Services>. 3. Click this. / ... / 30. Repeat for the other 5-10 servers. 
+				- Source control challenges 
+					- SVN:
+						- Branching and merging is possible, but difficult enough that no one uses it (except for masochists). 
+				- Environments 
+					- I need to change a file, but it's different between DEV/SVN, DEV/QA, QA/LIVE, etc. In some cases different copy on every single environment. Byproduct of manual deployment process, and using different process for deploying to QA vs. deploying to LIVE. 
+					- So... request a copy of the file from LIVE, get a copy from QA, get a copy from DEV, get a copy from local, compare all of them. Find which are different, investigate why they are different, figure out which copy is the "correct" one, and sync that to all environments. 
+					- Frustration, send email to team reminding them that they are supposed to commit to SVN before they deploy to QA. 
+					- Describe frustration with load balancer being out of sync with robocopy job/web farm.  Lack of communication with IT and dev. 
+					- Describe quarterly process of generating report of diff's between SVN and live. Bring them into sync w/ each other. 
+					- If possible, a diagram of deploy process, and the synching process (i started drawing this out in my moleskine)
+		 	=> Rising action "I need to make a complicated change that spans multiple files, and work on that for several weeks, while other dev's make changes to the same files..."
+	 			- 
+		3. Climax (turning point)
+			=> Moment of greatest tension in a story -- What is it in this case? SVN sync reports? Load bal sync isues? Not knowing if our app works or not in production at any given time? 
+				- A simple change becomes a Yak shave
+					- I need to modify a file... 
+					- but it doesn't match on SVN/DeV, so I have to check all environments
+					- several environments don't match, so now I need to reconcile and find what code is correct.
+					- OR, something is broken on one environment, but works on others. 
+					- Intermittent issue in production
+						- get all files, find which server in the farm is different, sync it. 
+
+				- (maybe use the gif of Brian Cranston doing a Yak shave)
+			=> Turning point
+				- Gradual introduction of newer technologies
+					- Powershell script to install local copy of environment on all developer machines.
+						- Dev's are happy because they have faster feedback loop due to lower latency for accessing files. 
+					- Migrate repo to git, 
+						- teach everyone git. Book: Pro Git. 1st 4 chapters are enough to start using git for day-to-day work. 
+						- svn2git (run within Ubuntu VM (can use vagrant))
+							why this and not "git svn"?
+							example command
+						- git repo was kept in sync with SVN for a few weeks while the SVN was the "hot" copy. Once we were ready, we switched over and everyone started using Git instead of SVN, and we never looked back. Party!
+					- Create cloud service 
+						- adapt powershell script as the startup script 
+						- (maybe want to do a live demo here, look at aspects of the cloud service)
+						- how to get classic asp to run in a cloud service (maybe put up a gist for this before the talk)
+						- Environment strategy: 
+							- single build deployed to all environments 
+							- how to handle environment specific configuration?
+							- why this and not staging/live swaps? 
+							- how can we make it better? custom process to inject environment vars into the build before deploy (cspkg is just a zip with some special metadata inside)
+					- Set up the automated build
+						- Powershell script, using PSake
+							- Why psake? I hate angle brackets based build systems. It's code, so why would you do it in XML-like language? Have you ever tried to do something as simple as a recursive folder copy, or zip up a file using MSBuild? I rest my case. 
+								- Be great if I could screenshot a stackoverflow question illustrating how absurdly complicated it is to accomplish simple things in MSBuild. 
+							- Other options:
+								- Rake (ruby), Albacore (also Ruby, based on top of Rake), Boo (???). 
+								- Use anything that's NOT angle brackets, that fits your skillset.
+					- Set up automated tests 
+						- using Xunit. 
+						- tests also to verify infrastructure configuration (iis is configured to serve classic asp correctly, iis URL rewrite rules, verify redirect/rewrite rules etc)
+						- tests to verify app functionality 
+							- Quick and easy tests 
+							- integration tests to verify functionality (slow, but really useful)
+							- useful tools: WebDriver/PhantomJs (link to my blog post, and maybe others)
+							-   
+					- Set up TeamCity and Octopus deploy 
+						- Point to git repo, poll for changes 
+						- Set up the build server
+						- Set up build agent(s) (can be same as build server if you like)
+						- Useful tools for automating build server setup: 
+							- Chocolatey, ConEmu. 
+						- Set up build configurations 
+							- Version Control 
+							- Tasks
+							- Snapshot dependencies 
+							- Link to video on using Octopus with TeamCity 
+							- link to blog post series on best practices for TeamCity configs 
+							- Call out to Octopus to deploy builds
+							- Octopus injects environment variables into config files, allows hooks to set up your own powershell scripts for Pre/Post deploy steps. Has native task for deploy Azure Cloud services. 
+
+					- Challenges 
+						- Build time. Original builds took over an hour to run, took long to deploy. 
+							- problem was huge amount of small files, and overall size of deploy package. 
+							- solution: multi-pronged effort: 
+								- Move all images to blob storage (more on this later)
+								- Aggresively archive all old, unused files
+							- result: build time: 1m:45s, deploy package: 40MB, total Git repo working dir size: ~200MB (Get the exact # here, i think i have it already in my moleskine or in email or word doc i created for my perf. review)
+								- show graph of build and deploy times as we optimized 
+
+		4. Reversal (falling action)
+
+		5. Denouement (moment of release)
