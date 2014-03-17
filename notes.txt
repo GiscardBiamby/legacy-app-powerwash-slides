@@ -63,6 +63,12 @@ HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresist
 							- how to handle environment specific configuration?
 							- why this and not staging/live swaps? 
 							- how can we make it better? custom process to inject environment vars into the build before deploy (cspkg is just a zip with some special metadata inside)
+					- Setup VNet, and S2S VPN 
+						- Easy setup, but one thing to note is Azure spits out the PSK, so if you ever change anything and need to recreate the VPN, you have to get a new PSK and update the config on the other side of tunnel. 
+						- Very fast, latency is about 4-6ms.
+						- Notes about architecture: 
+							- Normally you want to declare site affinity, to ensure geographical proximity, but putting things in the same VNet also automatically does this for you. 
+							
 					- Set up the automated build
 						- Powershell script, using PSake
 							- Why psake? I hate angle brackets based build systems. It's code, so why would you do it in XML-like language? Have you ever tried to do something as simple as a recursive folder copy, or zip up a file using MSBuild? I rest my case. 
@@ -92,6 +98,7 @@ HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresist
 							- link to blog post series on best practices for TeamCity configs 
 							- Call out to Octopus to deploy builds
 							- Octopus injects environment variables into config files, allows hooks to set up your own powershell scripts for Pre/Post deploy steps. Has native task for deploy Azure Cloud services. 
+							- Works for any kind of build: web site, console, win service, azure website, cloud service, etc. Any source control system, any language/platform. 
 
 					- Challenges 
 						- Build time. Original builds took over an hour to run, took long to deploy. 
@@ -101,7 +108,25 @@ HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresist
 								- Aggresively archive all old, unused files
 							- result: build time: 1m:45s, deploy package: 40MB, total Git repo working dir size: ~200MB (Get the exact # here, i think i have it already in my moleskine or in email or word doc i created for my perf. review)
 								- show graph of build and deploy times as we optimized 
+							- tons of powershell one-off's to clean up files. 
+							- Added steps to build script to exclude certain files from deploy package. Show powershell commands to get summaries of files by file extension from repo 
+						- Images 
+							- Moving to blob storage
+							- Created a simple cmd line tool to sync a git repo to azure blob storage (open sourced - link to Github proj). Other similar tools already exist: s3cmd (for Amazon), look in my twitter for that other one that I didn't know about until after I build AzzySync 
+							- Try to make static resource immutable, if you change contents of a file, push to a new name, this way yuo can set cache/expiry headers to really far in the future. 
+							- Created a simple teamcity build config that polls our static file git repo, and sync it to Azure blob whenever changes are detected. From git commit, takes about 1-2 minutes for static files to appear live. 
+							- only new/changed/deleted files are synced. 
+							- no cost to transfer data, b/c build server is in Azure, so uploading to blob is free.
+
 
 		4. Reversal (falling action)
-
+			=> 
 		5. Denouement (moment of release)
+			=> 
+				Powerwashing results: 
+					- Fully automated build pipeline 
+					- ~6 minutes from git commit to QA , 3.5 minutes to run tests, 7 minutes to deploy to PROD (create a graphic for this?)
+						- Compare to before: can only migrate once per hour, have to keep track of which files need tomigrate, and migrate them manually across really laggy VPN connection to slow DEV/QA servers. 
+					- Configuration drift ELIMINATED 
+					- Automated tests! Some assurance that things are working fine. But doesn't replace manual testing. 
+
