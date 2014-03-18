@@ -16,6 +16,7 @@
 
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+		<link rel="stylesheet" href="css/custom.css">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -64,10 +65,12 @@
 					</section>
 					<section>
 						<h3>Act 1: Exposition</h3>
-						Team of 3
-						A fairly large Classic ASP Application
-						... with custom and 3rd party COM components
-						Windows Server 2000, SQL Server, custom datacenter 
+						<ul>
+							<li>Team of 3</li>
+							<li>A fairly large Classic ASP Application</li>
+							<li>... with custom and 3rd party COM components</li>
+							<li>Windows Server 2000, SQL Server, custom datacenter </li>
+						</ul>
 					</section>
 					<section>
 						((probaby need to move this slide to a later ACT))
@@ -76,23 +79,26 @@
 						Plus, branching & merging are painful enough that we never do it.
 					</section>
 					<section>
-						How we work: 
+						<h3>How we work</h3>
 
-						Source control: Subversion
-						DEV/QA/LIVE environments
-							Dev's don't have local copy (we did but...)
-						Migration process:
-							Dev's manually copy to DEV/QA.
-							Custom tool to copy to PROD.
-							Trust devs to commit to SVN before migrating.
-						100% manual QA
-						Migrate to PROD 5-10x a day 
+						<ul>
+							<li>Subversion</li>
+							<li>DEV/QA/LIVE environments</li>
+								<li class="subitem">Dev's don't have local</li>
+							<li>Migration process:</li>
+								<li class="subitem">Dev's manually copy to DEV/QA.</li>
+								<li class="subitem">Custom tool to copy to PROD.</li>
+								<li class="subitem">Trust devs to commit to SVN before migrating.</li>
+							<li>100% manual QA</li>
+							<li>Migrate to PROD 5-10x a day </li>
+						</ul>
 					</section>
 					<section>
-						Typical/basic scenario: Web Farm + SQL cluster, behind a load balancer, and some jobs servers. 
+						<h3>Typical/basic setup</h3>
+						<p>Web Farm + SQL cluster, behind a load balancer, and some jobs servers. </p>
 					</section>
 					<section>
-						Nothing fancy, lot's of room for improvement, but it should work right? 
+						Nothing fancy, lot's of room for improvement. 
 					</section>
 				</section>
 

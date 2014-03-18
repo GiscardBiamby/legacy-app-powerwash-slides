@@ -4,7 +4,7 @@ HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresist
 		2. complication (rising action)
 		3. climax (turning point)
 		4. reversal (falling action)
-		5. Denouement (moment of release)
+		5. Dénouement (moment of release)
 
 
 		1. Exposition 
@@ -62,13 +62,16 @@ HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresist
 							- single build deployed to all environments 
 							- how to handle environment specific configuration?
 							- why this and not staging/live swaps? 
+							- startup.ps1 allows any customizations you want, 3rd party deps, windows/iis config, etc. 
+							- make the startup script idempotent, because it can run again on the same instance. 
 							- how can we make it better? custom process to inject environment vars into the build before deploy (cspkg is just a zip with some special metadata inside)
+							- 
 					- Setup VNet, and S2S VPN 
 						- Easy setup, but one thing to note is Azure spits out the PSK, so if you ever change anything and need to recreate the VPN, you have to get a new PSK and update the config on the other side of tunnel. 
 						- Very fast, latency is about 4-6ms.
 						- Notes about architecture: 
 							- Normally you want to declare site affinity, to ensure geographical proximity, but putting things in the same VNet also automatically does this for you. 
-							
+							- Network visibility
 					- Set up the automated build
 						- Powershell script, using PSake
 							- Why psake? I hate angle brackets based build systems. It's code, so why would you do it in XML-like language? Have you ever tried to do something as simple as a recursive folder copy, or zip up a file using MSBuild? I rest my case. 
@@ -121,6 +124,7 @@ HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresist
 
 		4. Reversal (falling action)
 			=> 
+				Hybrid cloud: You don't need to go all-in. Benefits for our team were continuous deploy/delivery, *way* more efficient dev workflow. Databases stayed on-premises, and we bridged the gap using VPN. 
 		5. Denouement (moment of release)
 			=> 
 				Powerwashing results: 
