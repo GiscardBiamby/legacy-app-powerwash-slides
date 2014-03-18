@@ -26,3 +26,13 @@
    opacity: 1.0;
    filter:none; /* For IE8 and earlier */
 }
+
+.reveal table {
+	margin:auto;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+.reveal table th, .reveal table td {
+	border-bottom: 1px solid ;
+
+}

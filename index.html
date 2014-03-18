@@ -245,8 +245,59 @@ svn2git --rebase
 
 				<section>
 					<section>
+						<h2>Azure Hosting Options</h2>
+						<ul>
+							<li>Azure Websites (PaaS)</li>
+							<li>Cloud Services (PaaS)</li>
+							<li>Azure Virtual Machines (IaaS)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Our Needs</h2><br/>
+						<table>
+							<thead>
+								<th></th>
+								<th>Azr. Websites</th>
+								<th>Cloud Svc</th>
+								<th>Azr. VM's</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Classic ASP</td>
+									<td>Yes</td>
+									<td>Yes</td>
+									<td>Yes</td>
+								</tr>
+								<tr></tr>
+								<tr>
+									<td>Custom Dep's</td>
+									<td>NO</td>
+									<td>Yes</td>
+									<td>Yes</td>
+								</tr>
+								<tr>
+									<td>VPN</td>
+									<td>NO</td>
+									<td>Yes</td>
+									<td>Yes</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+					<section>
+						<h2>Winner: Cloud Services</h2>
+						<p>- Easier to automate, scale, and manage than VM's.</p><br/>
+						<p>- Note: Storage on Cloud Services is ephemeral; you aren't guaranteed to ever have a particular instance be alive for any period of time (so you need at least 2 instances, and don't write anything critical to disk).</p><br/>
+						<p>- Go with VM's if you need persistent instances, e.g., if you have to write to disk a lot</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
 						<h2>Migrating Classic ASP to Azure</h2>
 					</section>
+
 					<section>
 						<h2>Pretty easy, actually:</h2>
 						<ul>
