@@ -23,7 +23,7 @@ HBR article - presentation as a story (http://blogs.hbr.org/2014/03/the-irresist
 						- "Step 1. Log into target server / 2. Start>Administrative Tools>Component Services>. 3. Click this. / ... / 30. Repeat for the other 5-10 servers. 
 				- Source control challenges 
 					- SVN:
-						- Branching and merging is possible, but difficult enough that no one uses it (except for masochists). 
+						- Branching and merging is possible, but difficult enough that no one uses it. 
 				- Environments 
 					- I need to change a file, but it's different between DEV/SVN, DEV/QA, QA/LIVE, etc. In some cases different copy on every single environment. Byproduct of manual deployment process, and using different process for deploying to QA vs. deploying to LIVE. 
 					- So... request a copy of the file from LIVE, get a copy from QA, get a copy from DEV, get a copy from local, compare all of them. Find which are different, investigate why they are different, figure out which copy is the "correct" one, and sync that to all environments. 

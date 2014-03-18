@@ -130,17 +130,98 @@
 						<p>If your process allows people to bypass version control...</p>
 						<a class="image fragment" target="_blank"><img src="img/eviltoddlerproddeploynovcs.jpg"/></a>
 					</section>
-
 					<section>
-						<ol>
-							<!--TODO: Diagram this out somehow? of how migrations are done -->
-							<li class="fragment">Out-of-sync environments</li>
-							<li class="fragment">Golden Servers</li> 
-							<li class="fragment">Shared environments / no local development</li>
-							<li class="fragment">Bus factor</li><!-- who knows how to build the web servers? There is a doc, ,but how up to date is it?-->
-							<li class="fragment">Manual testing</li>
-							<li class="fragment">SVN: No branching/merging</li>
-						</ol>
+						<h3>Shared development environment</h3>
+						<ul>
+							<li>Slow and laggy VPN + old, slow servers</li>
+							<li>Painfully slow edit-save-refresh loop</li>
+						</ul>
+					</section>
+					<section>
+						<h2>SVN</h1>
+						<p class="bigtext">Branching and merging are such as hassle we never use them.</p>
+					</section>
+					<section>
+						<h3>100% Manual Testing</h3>
+						<p>(More like 99.99% NO testing)</p>
+					</section>
+				</section>
+
+				<section>
+					<section><h1>Act III - Turning Point</h1></section>
+					<section>
+						<h2>Gradual Introduction of newer tools / technologies</h2>
+					</section>
+					<section>
+						<h2>Allow developers to run local copy of site!</h2>
+						<p>Created a Powershell script to set up the site in IIS, install deps.</p>
+						<p>Speed up edit/save/refresh cycle => Efficiency.</p>
+						<p>(we'll re-use this script later, when we move to Azure)</p>
+					</section>
+					<section>
+						<h2>BTW, Powershell is Awesome</h2>
+					</section>
+					<section>
+						<h2>Migrate from Subversion to Git</h2>
+						<!--<p>Tools: Vagrant, Ubuntu, and svn2git</p>-->
+						<p>Why: Cheap & fast branching/merging that <u>work</u>, flexible workflows.</p>
+						<p>Peer pressure: You alienate yourself from developer community by not using Git.</p>
+						<a class="image" target="_blank"><img src="img/willywonkaSVNMerge.jpg"/></a>
+					</section>
+					<section>
+						<blockquote cite="">
+							&ldquo;
+							<p>When you switch to <span class="strike">Mercurial</span>Git, you may not even realize it, but branching becomes possible again, and you don’t have to be afraid.</p>
+
+							<p>That means you can have team repositories, where a small team of programmers collaborates on a new feature, and when they’re done, they merge it into the main development repository, and <strong><i><u>it works</u></i></strong>!!</p>
+							&rdquo;
+						</blockquote>
+						- Joel Spoelsky on <span class="strike">Mercurial</span>Git
+					</section>
+					<section>
+						<h1>svn2git</h1>
+						<ul>
+							<li>Could have used "git svn", but <a href="http://www.m0interactive.com/archives/2011/04/05/never_use_git_svn_to_convert_your_svn_repo_to_git.html">read some bad things about it</a> (http://tinyurl.com/gitsvnbad).
+							</li>
+							<li>Lots of other ways to convert SVN->Git, use whatever works for you.</li>
+						</ul>
+					</section>
+					<section>
+						svn2git is built in Ruby.
+						We used Vagrant ("chocolatey install vagrant") to set up a Ubuntu VM, and ran svn2git from there.
+					</section>
+					<section>
+						<h2>svn2git Installation on new ubuntu precise32 VM</h2>
+						<pre><code data-trim contenteditable>
+sudo apt-get install subversion
+sudo apt-get git
+sudo apt-get install git-core git-svn
+sudo apt-get install ruby rubygems
+sudo gem install svn2git
+						</code></pre>
+					</section>
+					<section>
+						<h2>Get a list of the svn commit authors, to pass into svn2git</h2>
+						<pre><code data-trim >svn log -q | awk -F '|' '/^r/ {sub("^ ", "", $2); sub(" $", "", $2) ; print $2" = "$2" <"$2">"}' | sort -u > authors-transform.txt
+						</code></pre>
+					</section>
+					<section>
+						<h2>Repository Conversion</h2>
+						<h4></h4>
+						<pre><code data-trim>
+mkdir yourproj
+cd yourproj
+svn2git http://your.svn.repo.com/YourProj  --nobranches --notags --username YOURUSERNAME --verbose
+git filter-branch --commit-filter 'git_commit_non_empty_tree "$@"' HEAD
+git remote add origin git@bitbucket.org:you/YourProj.git
+git push -u origin --all
+						</code></pre>
+					</section>
+					<section>
+						<h2>Team Education</h2>
+						<ul>
+							<li>We decided we needed chapters 1-4 of "Pro Git" in order to know enough to replace SVN</li>
+							 
 					</section>
 				</section>
 
