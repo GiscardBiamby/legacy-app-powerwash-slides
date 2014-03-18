@@ -207,7 +207,7 @@ sudo gem install svn2git
 					</section>
 					<section>
 						<h2>Repository Conversion</h2>
-						<h4></h4>
+			
 						<pre><code data-trim>
 mkdir yourproj
 cd yourproj
@@ -218,10 +218,26 @@ git push -u origin --all
 						</code></pre>
 					</section>
 					<section>
-						<h2>Team Education</h2>
+						<h2>Used both Git and SVN during 4-6 week transition period</h2>
 						<ul>
-							<li>We decided we needed chapters 1-4 of "Pro Git" in order to know enough to replace SVN</li>
-							 
+							<li>Not everyone on the team knew Git.</li>
+							<li>We decided everyone would read ch. 1-4 of "Pro Git" before switching.</li>
+							<li>Agreed on one chapter a week.</li>
+							<li>New code still went to SVN, used svn2git to sync those changes to the new Git repo.</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Sync new commits from SVN to Git</h2>
+						<pre><code data-trim>
+cd YourProj
+svn2git --rebase						
+						</code></pre>
+					</section>
+					<section>
+						<h2>SVN->Git: Flipping the Switch</h2>
+						<p>When we were ready, we did a final svn->git sync, and everyone started committing to Git. That's all.</p>
+						<p>SVN repo is still around, but so far we haven't needed it.</p>
+						<p>Have re-used this process for dozens of projects since.</p>
 					</section>
 				</section>
 
