@@ -10,3 +10,19 @@
 	text-decoration: line-through;
 	color:#8B4E4D;
 }
+
+.reveal .transparent-box {
+   background-color:#ffffff;
+   border:1px solid black;
+   opacity:0.7;
+   filter:alpha(opacity=70); /* For IE8 and earlier */
+   
+}
+.reveal .transparent-box p {
+	color: #1F1B34;
+} 
+.reveal .transparent-box h2 {
+	color: #1F1B34;
+   opacity: 1.0;
+   filter:none; /* For IE8 and earlier */
+}

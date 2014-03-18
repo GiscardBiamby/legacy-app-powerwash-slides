@@ -233,11 +233,76 @@ cd YourProj
 svn2git --rebase						
 						</code></pre>
 					</section>
+					<section data-background="img/gitcutover-dogparty.jpg">
+						<div class="transparent-box">
+							<h2>SVN->Git: Flipping the Switch</h2>
+							<p>When we were ready, we did a final svn->git sync, and everyone started committing to Git. That's all.</p>
+							
+							<p>Have re-used this process for dozens of projects since.</p>
+						</div>
+					</section>
+				</section>
+
+				<section>
 					<section>
-						<h2>SVN->Git: Flipping the Switch</h2>
-						<p>When we were ready, we did a final svn->git sync, and everyone started committing to Git. That's all.</p>
-						<p>SVN repo is still around, but so far we haven't needed it.</p>
-						<p>Have re-used this process for dozens of projects since.</p>
+						<h2>Migrating Classic ASP to Azure</h2>
+					</section>
+					<section>
+						<h2>Pretty easy, actually:</h2>
+						<ul>
+							<li>New VS.NET solution</li>
+							<li>Add Cloud Service project (web role)</li>
+							<li>Add existing website (Can be Classic ASP, ASP.NET, etc)</li>
+							<li>Configure web role via .csdef</li>
+							<li>... (cont.)</li>
+						</ul>
+					</section>
+					<section>
+
+					</section>
+					<section>
+						<h2>Configure startup script in .csdef:</h2>
+						<pre ><code>
+&lt;Startup&gt;
+      &lt;Task commandLine=&quot;Startup/Startup.cmd&quot; executionContext=&quot;elevated&quot; taskType=&quot;simple&quot; /&gt;
+&lt;/Startup&gt;
+						</code></pre>
+						(demo)
+					</section>
+					<section>
+						<h2>Go ahead and make your startup script a powershell script</h2>
+						<pre><code>
+REM This script executes from: ...WindowsAzure1csxDebugrolesInqWebapprootbin
+
+REM Some debug output -- output environment vars: 
+PowerShell -Version 3.0 -NoProfile -ExecutionPolicy Unrestricted &quot;gci env: | format-list&quot;  &gt;&gt; &quot;%TEMP%StartupLog-EnvironmentVars.txt&quot; 2&gt;&amp;1
+
+REM Run PowerShell startup script:
+IF &quot;%ComputeEmulatorRunning%&quot; == &quot;false&quot; (
+    PowerShell -Version 3.0 -noprofile -ExecutionPolicy Unrestricted .Startupstartup.ps1 -ComputeEmulatorRunning &quot;false&quot; -Environment %Environment% -roleRoot %RoleRoot% &gt;&gt; &quot;%TEMP%StartupLog.txt&quot; 2&gt;&amp;1
+) ELSE (
+    PowerShell -Version 3.0 -noprofile -ExecutionPolicy Unrestricted .Startupstartup.ps1 -ComputeEmulatorRunning &quot;true&quot;  -Environment %Environment% -roleRoot %RoleRoot% &gt;&gt; &quot;%TEMP%StartupLog.txt&quot; 2&gt;&amp;1
+)
+
+REM If an error occurred, return the errorlevel: 
+EXIT /B %errorlevel%							
+						</code></pre>
+						(demo)
+					</section>
+					<section>
+						<h2>Cloud Service Startup Script</h2>
+						<ul>
+							<li>Here is where you perform all customizations:</li>
+							<li class="subitem">configure IIS, enable Classic ASP, install 3rd party dependencies, install Windows features, etc.</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Cloud Service Startup Script: Idempotency</h2>
+						<ul>
+							<li>Make every step idempotent!</li>
+							<li>Use file system to record each step, so you don't have to run them again if the VM is just restarting.</li>
+							<li>Use simple functions to abstract idempotency bookkeeping (demo)</li>
+						</ul>
 					</section>
 				</section>
 
