@@ -104,18 +104,43 @@
 
 				<section>
 					<section>
-						<h3>Act II: Troubles</h3>
+						<h3>Act II: Complication</h3>
 					</section>
 					<section>
-						<h3>Pain Points</h3>
-						<ul>
-							<li>Inconsistent environments</li>
-							<li>Golden Servers</li>
-							<li>Shared environments / no local development</li>
-							<li>Bus factor</li><!-- who knows how to build the web servers? There is a doc, ,but how up to date is it?--> 
-							<li>Manual testing</li>
-							<li>SVN: No branching/merging</li>
-						</ul>
+						<h3>Old servers, old tech stack</h3>
+						<a class="image fragment" target="_blank"><img src="img/whatyearclassicasp.jpg"/></a>
+					</section>
+					<section>
+						<h3>Golden Servers</h3>
+						<ol>
+							<li>One-time configuration edits during outages</li>
+							<li>"Temporary" config changes that stay forever</li>
+							<li>Undocumented settings, tools, services</li>
+						</ol>
+						<br/><br/>
+						<div class="fragment">
+							<blockquote cite="http://chadfowler.com/blog/2013/06/23/immutable-deployments/">
+								&ldquo;The system becomes a house of cards. You fear any change and you fear replacing it since you don’t know everything about how it works.&rdquo;
+							</blockquote>
+							- <a href="http://chadfowler.com/blog/2013/06/23/immutable-deployments/">Chad Fowler</a>
+						</div>
+					</section>
+					<section>
+						<h3>Out of sync Environments</h3>
+						<p>If your process allows people to bypass version control...</p>
+						<a class="image fragment" target="_blank"><img src="img/eviltoddlerproddeploynovcs.jpg"/></a>
+					</section>
+
+					<section>
+						<ol>
+							<!--TODO: Diagram this out somehow? of how migrations are done -->
+							<li class="fragment">Out-of-sync environments</li>
+							<li class="fragment">Golden Servers</li> 
+							<li class="fragment">Shared environments / no local development</li>
+							<li class="fragment">Bus factor</li><!-- who knows how to build the web servers? There is a doc, ,but how up to date is it?-->
+							<li class="fragment">Manual testing</li>
+							<li class="fragment">SVN: No branching/merging</li>
+						</ol>
 					</section>
 				</section>
 
