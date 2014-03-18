@@ -379,6 +379,39 @@ EXIT /B %errorlevel%
 				</section>
 
 				<section>
+					<section>
+						<h2>We didn't want to move our DB to the cloud</h2>
+						<p class="fragment">So we needed VPN to connect Cloud Services to our datacenter</p>
+					</section>
+					<section>
+						<h2>Azure Site-to-Site VPN</h2>
+						<ul>
+							<li>Easy setup, just follow docs, can do all of it through the UI, Powershell, or API</li>
+							<li>Azure dictates the pre-shared key</li>
+							<li>Check the docs for list of supported devices</li>
+						</ul>	
+					</section>
+					<section>
+						<h2>VPN, VNet, and Regions</h2>
+						<ul>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+						</ul>
+					</section>
+					<section>
+						<h2>S2S VPN: DNS</h2>
+						<ul>
+							<li>Use Azure DNS (it only knows about Azure stuff)</li>
+							<li>Or use your own (either hosted on Azure VM, or from your on-premises)</li>
+							<li></li>
+						</ul>
+					</section>
+				</section>
+
+
+				<section>
 					<h3>Continuous Delivery?</h3>
 					<ul>
 						<li>Automation of all steps in the build and deploy pipeline, but one or more steps require manual intervention.</li>
