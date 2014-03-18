@@ -509,6 +509,36 @@ EXIT /B %errorlevel%
 				</section>
 
 				<section>
+					<section>
+						<h1>Act IV - Challenges</h1>
+					</section>
+					<section>
+						<h2>Build Times were absurd in the beginning</h2>
+						<ul>
+							<li>Timeouts</li>
+							<li>Due to :</li>
+							<li class="subitem">Large file count (many small files; ~23,000 total)</li>
+							<li class="subitem">Large total file size (~1.4GB working dir)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Big effort to reduce file count and total size</h2>
+						<ul>
+							<li>Lots of powershell &amp; SQL</li>
+							<li>Moved all images &amp; PDF's to blob storage</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Build times reduced to ~01m:45s</h2>
+						<img src="img/tc-buildtimes.png"/>
+					</section>
+					<section>
+						<h2>Deploy pkg size: 300MB -> 50MB</h2>
+						<img src="img/tc-artifactsize.png"/> 
+					</section>
+				</section>
+
+				<section>
 					<h2>Migrating scheduled jobs to Azure</h2>
 					<p>Using Azure VM's (IaaS)</p>
 					<p>Octopus Deploy to automated deploy of console apps, and setting up Scheduled Tasks</p>
