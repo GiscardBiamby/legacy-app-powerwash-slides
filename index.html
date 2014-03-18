@@ -300,8 +300,29 @@ EXIT /B %errorlevel%
 						<h2>Cloud Service Startup Script: Idempotency</h2>
 						<ul>
 							<li>Make every step idempotent!</li>
-							<li>Use file system to record each step, so you don't have to run them again if the VM is just restarting.</li>
+							<li>Startup script runs on instance provision, deploy, & reboot</li>
+							<li>Use file system to record each step, so you don't have to re-run Startup.bat if the VM is simply restarting.</li>
 							<li>Use simple functions to abstract idempotency bookkeeping (demo)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Handling Environment Configurations</h2>
+						<ul>
+							<li>Can be tricky, but possible.</li>
+							<li>VIP swaps aren't good for environments</li>
+							<li>VIP slots are within a single env., the slots aren't meant to point to different env's</li>
+							<li>VIP swap slots also cost $ while in use</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Our Environment Config Strategy</h2>
+						<ul>
+							<li>Single build deployed to all environments</li>
+							<li>One ServiceConfiguration.*.cscfg per environment</li>
+							<li>.cscfg has <code>&lt;ConfigurationSettings&gt;</code> section, put your config's there</li>
+							<li>You have to do a little legwork at each of the following files to pipe the settings all the way thru: </li>
+							<li class="subitem">.cscfg -> .csdef -> startup.bat -> startup.ps1 (demo)</li>
+							<li>You can also do Startup.cs (C#)</li>
 						</ul>
 					</section>
 				</section>
