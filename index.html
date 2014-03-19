@@ -504,6 +504,22 @@ EXIT /B %errorlevel%
 
 				<section>
 					<section>
+						<h2>Build Server setup</h2>
+						<ul>
+							<li>1 Primary: Hosts TeamCity and Octopus Servers</li>
+							<li>1 Dedicated Build Agent</li>
+							<li>Octopus Tentacle installed on 2 Jobs servers</li>
+							<li>All the above are Azure VM's</li>
+							<li>Data transfers between VM"'s are FAST, and free</li>
+						</ul>
+					</section>
+					<section>
+						<h1></h1>
+					</section>
+				</section>
+
+				<section>
+					<section>
 						<h1>Act IV - Challenges</h1>
 					</section>
 					<section>
@@ -513,6 +529,7 @@ EXIT /B %errorlevel%
 							<li>Due to :</li>
 							<li class="subitem">Large file count (many small files; ~23,000 total)</li>
 							<li class="subitem">Large total file size (~1.4GB working dir)</li>
+							<li>Instance size for TeamCity build agent was too small (initially XS), IOPS and network bandwidth limited</li>
 						</ul>
 					</section>
 					<section>
